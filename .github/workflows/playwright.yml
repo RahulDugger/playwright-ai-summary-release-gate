@@ -23,10 +23,12 @@ jobs:
         run: npm run typecheck
       - name: Run release-gate tests
         run: npm test
-      - name: Upload Playwright report on failure
-        if: failure()
+      - name: Upload Playwright report and videos
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: playwright-report-and-videos
+          path: |
+            playwright-report/
+            test-results/
           if-no-files-found: ignore

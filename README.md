@@ -37,7 +37,7 @@ Page interactions live in `tests/pages/SupportDashboardPage.ts`; each test gets 
 
 ## Release-blocking criteria
 
-The GitHub Actions workflow runs the TypeScript check and the complete Chromium test suite on pushes and pull requests. Either failing check blocks the `release-gate` job. On failure, CI retains the Playwright HTML report as an artifact.
+The GitHub Actions workflow runs the TypeScript check and the complete Chromium test suite on pushes and pull requests. Either failing check blocks the `release-gate` job. Each run uploads the Playwright HTML report and test results, including a video for every test, as the `playwright-report-and-videos` artifact. Download it from the completed workflow run on GitHub Actions; open `playwright-report/index.html` to review the report and the videos under `test-results/`.
 
 ## Deliberate failure exercise
 
