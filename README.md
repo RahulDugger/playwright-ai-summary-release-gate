@@ -18,10 +18,11 @@ For the Playwright interactive runner, use `npm run test:ui`.
 ## What's covered
 
 - Successful summary generation, citation validation, and approval.
+- Summaries with missing citations or empty text that must not be approved.
 - An insufficient-information service response that keeps approval disabled.
 - A `503` service error followed by a successful retry.
 - A malformed summary with a cross-ticket citation that must not be approved.
-- A summary containing an email address that must not be approved.
+- Summaries containing an email address or phone number that must not be approved.
 - Deterministic evaluator checks for missing/foreign citations, empty text, and email/phone leakage.
 
 Page interactions live in `tests/pages/SupportDashboardPage.ts`; each test gets an isolated Playwright page and its own mocked service response, so tests can run in parallel. The tiny local server in `server.mjs` provides a deterministic success response when the app is opened outside the tests.

@@ -59,3 +59,35 @@ test('rejects summaries that expose email addresses or phone numbers', () => {
     'Summary may expose personal contact information.',
   );
 });
+
+test('rejects empty summaries', () => {
+  //Arrange
+  const summary = {
+    text: '   ',
+    sourceIds: ['m1'],
+  };
+
+  //Act
+  const evaluation = evaluateSummary(summary, ticketMessages);
+
+  //Assert
+  expect(evaluation.eligible).toBe(false);
+  expect(evaluation.reasons).toContain('Summary must not be empty.');
+});
+
+test('rejects summaries that expose phone numbers', () => {
+  //Arrange
+  const summary = {
+    text: 'Call the customer at +1 (555) 123-4567 about the delay.',
+    sourceIds: ['m1'],
+  };
+
+  //Act
+  const evaluation = evaluateSummary(summary, ticketMessages);
+
+  //Assert
+  expect(evaluation.eligible).toBe(false);
+  expect(evaluation.reasons).toContain(
+    'Summary may expose personal contact information.',
+  );
+});

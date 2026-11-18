@@ -156,3 +156,57 @@ test('blocks approval when a summary exposes personal contact information', asyn
   );
   await expect(page.getByTestId('approve-summary')).toBeDisabled();
 });
+
+test('blocks approval when the generated summary has no citation', async ({
+  page,
+  supportDashboard,
+}) => {
+  //Arrange
+  await page.route('**/api/generate', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        status: 'ok',
+        summary: 'The customer reports a delayed package.',
+        sourceIds: [],
+      }),
+    });
+  });
+
+  //Act
+  await supportDashboard.generateSummary();
+
+  //Assert
+  await expect(page.getByTestId('generation-status')).toHaveText(
+    'Summary is not eligible for approval: Summary must cite at least one ticket message.',
+  );
+  await expect(page.getByTestId('approve-summary')).toBeDisabled();
+});
+
+test('blocks approval when a summary exposes a phone number', async ({
+  page,
+  supportDashboard,
+}) => {
+  //Arrange
+  await page.route('**/api/generate', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        status: 'ok',
+        summary: 'Call the customer at +1 (555) 123-4567 about the delay.',
+        sourceIds: ['m1'],
+      }),
+    });
+  });
+
+  //Act
+  await supportDashboard.generateSummary();
+
+  //Assert
+  await expect(page.getByTestId('generation-status')).toHaveText(
+    'Summary is not eligible for approval: Summary may expose personal contact information.',
+  );
+  await expect(page.getByTestId('approve-summary')).toBeDisabled();
+});
