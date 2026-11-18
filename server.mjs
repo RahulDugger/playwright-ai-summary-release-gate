@@ -1,3 +1,8 @@
+/**
+ * Runs the local test application without external services: serves dashboard
+ * files and returns a deterministic summary for valid T-100 generation requests.
+ * Playwright tests can intercept the same API route to exercise other responses.
+ */
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, sep } from 'node:path';

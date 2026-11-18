@@ -1,4 +1,8 @@
 /**
+ * Deterministically checks generated summaries for required, ticket-local
+ * citations, non-empty text, and basic email or phone-number leakage.
+ */
+/**
  * @typedef {{ id: string, text: string }} TicketMessage
  * @typedef {{ text: string, sourceIds: string[] }} GeneratedSummary
  * @typedef {{ eligible: boolean, reasons: string[] }} SummaryEvaluation

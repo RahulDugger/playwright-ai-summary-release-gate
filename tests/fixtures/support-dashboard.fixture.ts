@@ -1,3 +1,7 @@
+/**
+ * Provides each Playwright test with a page object for a freshly opened
+ * support dashboard, keeping browser interactions isolated and parallel-safe.
+ */
 import { test as base, expect } from '@playwright/test';
 import { SupportDashboardPage } from '../pages/SupportDashboardPage.js';
 

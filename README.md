@@ -8,6 +8,29 @@ This is a small synthetic test application used to evaluate the Playwright test 
 
 ![Support dashboard showing a generated summary ready for approval](./support-dashboard.png)
 
+## Project structure
+
+```text
+.
+|-- .github/
+|   `-- workflows/
+|       `-- playwright.yml            # CI checks and report/video artifact upload
+|-- app/
+|   |-- index.html                    # Synthetic support dashboard and UI behavior
+|   `-- summary-evaluator.js          # Deterministic summary eligibility checks
+|-- tests/
+|   |-- fixtures/
+|   |   `-- support-dashboard.fixture.ts # Opens a fresh dashboard for each test
+|   |-- pages/
+|   |   `-- SupportDashboardPage.ts   # Page object: dashboard locators and actions
+|   |-- generation.spec.ts            # UI tests with mocked API responses
+|   `-- summary-evaluator.spec.ts     # Direct evaluator unit tests
+|-- playwright.config.ts              # Browser, server, reporter, and video settings
+|-- server.mjs                        # Local static server and deterministic API
+|-- tsconfig.json                     # TypeScript checks
+`-- package.json                      # Commands and development dependencies
+```
+
 ## Setup and run
 
 Requirements: Node.js 22+ and npm.

@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class SupportDashboardPage {
   private readonly generateButton: Locator;
@@ -27,6 +27,31 @@ export class SupportDashboardPage {
   /** Approves the displayed summary when the UI allows it. */
   async approveSummary(): Promise<void> {
     await this.approveButton.click();
+  }
+
+  /** Waits for the generation or approval status to match the expected text. */
+  async expectStatus(text: string): Promise<void> {
+    await expect(this.status).toHaveText(text);
+  }
+
+  /** Waits for the summary to contain the expected text. */
+  async expectSummaryToContain(text: string): Promise<void> {
+    await expect(this.summary).toContainText(text);
+  }
+
+  /** Waits for the generate button label to match the expected text. */
+  async expectGenerateButtonText(text: string): Promise<void> {
+    await expect(this.generateButton).toHaveText(text);
+  }
+
+  /** Waits until summary approval is enabled. */
+  async expectApprovalEnabled(): Promise<void> {
+    await expect(this.approveButton).toBeEnabled();
+  }
+
+  /** Waits until summary approval is disabled. */
+  async expectApprovalDisabled(): Promise<void> {
+    await expect(this.approveButton).toBeDisabled();
   }
 
   /** Returns the visible summary text. */

@@ -1,3 +1,7 @@
+/**
+ * Unit tests for deterministic summary eligibility checks, including citation
+ * validity, non-empty text, and basic personal contact-data detection.
+ */
 import { test, expect } from '@playwright/test';
 import { evaluateSummary } from '../app/summary-evaluator.js';
 
@@ -6,6 +10,7 @@ const ticketMessages = [
   { id: 'm2', text: 'Please share an update.' },
 ];
 
+// Validate that a non-empty summary with a ticket-local citation is eligible.
 test('accepts a non-empty summary citing a message from this ticket', () => {
   //Arrange
   const summary = {
@@ -20,6 +25,7 @@ test('accepts a non-empty summary citing a message from this ticket', () => {
   expect(evaluation).toEqual({ eligible: true, reasons: [] });
 });
 
+// Validate that missing citations and citations from another ticket are rejected.
 test('rejects missing and cross-ticket citations', () => {
   //Arrange
   const summaries = [
@@ -43,6 +49,7 @@ test('rejects missing and cross-ticket citations', () => {
   );
 });
 
+// Validate that a summary containing an email address is ineligible.
 test('rejects summaries that expose email addresses or phone numbers', () => {
   //Arrange
   const summary = {
@@ -60,6 +67,7 @@ test('rejects summaries that expose email addresses or phone numbers', () => {
   );
 });
 
+// Validate that whitespace-only summary text is ineligible.
 test('rejects empty summaries', () => {
   //Arrange
   const summary = {
@@ -75,6 +83,7 @@ test('rejects empty summaries', () => {
   expect(evaluation.reasons).toContain('Summary must not be empty.');
 });
 
+// Validate that a summary containing a phone number is ineligible.
 test('rejects summaries that expose phone numbers', () => {
   //Arrange
   const summary = {
